@@ -70,7 +70,7 @@ Copied/adapted from the playbook pattern — see `ai-delivery-playbook/skills/` 
 | Skill | When to use |
 |---|---|
 | `abap-review-performance` | SELECT-in-loop, nested SELECTs, missing FOR ALL ENTRIES guards, internal-table anti-patterns |
-| `abap-review-naming` | Naming conventions, Hungarian notation consistency, obsolete statements *(planned)* |
+| `abap-review-naming` | Naming conventions in the spirit of SAP's public [Clean ABAP](https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md) guide, Hungarian notation consistency, obsolete statements *(planned)* |
 | `abap-review-security` | Dynamic SQL, AUTHORITY-CHECK gaps, hardcoded credentials *(planned)* |
 | `abap-review-report` | Aggregates findings from the other skills into one structured, severity-ranked report artifact *(planned)* |
 | `abap-code-review` (workflow) | Point at a repo/folder → run the skills above → human-verifiable report with file:line references |
@@ -93,6 +93,19 @@ This repo is public from day one. Never commit:
 - Anything proprietary from a client/employer codebase — only public, open-source ABAP (abapGit) is used as a review target
 
 Run `/public-repo-check` before every push (copy the skill from `ai-delivery-playbook/skills/public-repo-check.md` when ready).
+
+---
+
+## Setup
+
+1. `python3 scripts/check_fixtures.py fixtures/` — no dependencies beyond Python 3 stdlib, works immediately after cloning.
+2. To run the real demo target (abapGit) rather than just the eval fixtures — needs a machine with normal internet access, not a network-restricted sandbox:
+   ```bash
+   git clone https://github.com/abapGit/abapGit.git vendor/abapgit
+   cd vendor/abapgit && git rev-parse HEAD   # record this SHA in the report header — it's what makes the report reproducible
+   ```
+3. Run the `/abap-code-review` workflow against `vendor/abapgit/src` (or the relevant subpath) with an AI coding agent (Claude Code or similar) that has read this file and the skill files under `skills/`.
+4. Verify a sample of findings by hand before publishing, then save the report under `examples/abapgit-<short-sha>-<date>.md`.
 
 ---
 
