@@ -1,0 +1,4 @@
+# External ABAP source pulled in for review (e.g. abapGit) — cloned locally per
+# AGENTS.md instructions, not vendored into this repo's history. Only the
+# generated reports under examples/ and the pinned commit SHA get committed.
+/vendor/
