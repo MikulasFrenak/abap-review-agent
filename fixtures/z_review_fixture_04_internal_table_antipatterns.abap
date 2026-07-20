@@ -5,7 +5,7 @@ REPORT z_review_fixture_04.
 "! inside the outer loop without BINARY SEARCH or a hashed/sorted
 "! table type.
 "! Expected findings: abap-review-performance, Medium severity,
-"! lines 12 and 16.
+"! lines 16 and 20.
 
 DATA: lt_materials TYPE TABLE OF mara,
       lt_plants    TYPE TABLE OF marc,

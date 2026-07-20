@@ -1,7 +1,7 @@
 REPORT z_review_fixture_01.
 
 "! Known issue: SELECT inside LOOP AT (N+1 pattern).
-"! Expected finding: abap-review-performance, High severity, line 12.
+"! Expected finding: abap-review-performance, High severity, line 13.
 
 DATA: lt_orders TYPE TABLE OF vbak,
       lt_items  TYPE TABLE OF vbap,

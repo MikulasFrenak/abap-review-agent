@@ -6,7 +6,11 @@ Built with, and demonstrating, the [AI Delivery Playbook](https://github.com/Mik
 
 ## Status
 
-**Milestone 1 in progress.** `abap-review-performance` (SELECT-in-loop, nested SELECTs, missing FOR ALL ENTRIES guards, internal-table anti-patterns) is built and self-verified against the eval fixtures in `fixtures/` — see `examples/fixtures-2026-07-20.md`. Next: run it against a pinned abapGit commit for the real public demo.
+**Milestone 1 in progress.** `abap-review-performance` (SELECT-in-loop, nested SELECTs, missing FOR ALL ENTRIES guards, internal-table anti-patterns) is built and verified against the eval fixtures in `fixtures/` — see `examples/fixtures-2026-07-20.md`. A deterministic (non-LLM) regression test, `scripts/check_fixtures.py`, runs the mechanical part of the same logic and checks it in CI on every push/PR — free, no API key. Next: run it against a pinned abapGit commit for the real public demo.
+
+```bash
+python3 scripts/check_fixtures.py fixtures/
+```
 
 ## How it works
 
