@@ -1,0 +1,17 @@
+name: Check eval fixtures
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check-fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Run deterministic anti-pattern check against fixtures
+        run: python3 scripts/check_fixtures.py fixtures/
