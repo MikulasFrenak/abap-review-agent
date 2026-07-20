@@ -32,4 +32,4 @@ Next: run the workflow against a pinned abapGit commit for the real public demo 
 4. `scripts/check_fixtures.py` — deterministic, non-LLM regression test over the fixtures; catches mechanical regressions fast and free, run automatically in CI (`.github/workflows/check-fixtures.yml`).
 5. `examples/` — published reports from real runs, with file:line findings.
 
-See `AGENTS.md` for full conventions (repo layout, branching, public-repo hygiene, setup) — read that before making changes here.
+See `AGENTS.md` for full conventions (repo layout, branching, public-repo hygiene, setup) — read that before making changes here. See `docs/adoption.md` for how a team would actually bring this into their SAP change/review process, not just run it once as a demo.

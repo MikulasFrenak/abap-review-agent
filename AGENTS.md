@@ -24,6 +24,7 @@ Agents draft findings. Humans decide what's real and what ships. No auto-fixes i
 /vendor            # pinned external ABAP source to review (e.g. abapGit at a fixed commit) — gitignored, cloned locally per the Setup section below
 /scripts           # check_fixtures.py — deterministic (non-LLM) regression test for the mechanical part of abap-review-performance, run in CI
 /.github/workflows # check-fixtures.yml — runs scripts/check_fixtures.py on every push/PR, free (no API key, no LLM call)
+/docs              # adoption.md — how a team would actually bring this into their review process, not just run it once
 ```
 
 **Testing.** `python3 scripts/check_fixtures.py fixtures/` is the automated test suite — it re-implements the mechanical pattern-matching from `skills/abap-review-performance.md` Step 2 (no LLM involved) and checks it against each fixture's own "Expected finding(s): ... line(s) N" header comment. Run it after touching any fixture or changing the skill's detection logic; CI runs it on every push/PR. It is deliberately *not* a replacement for the skill itself — the skill's judgment calls (severity based on table size, context-aware false-positive filtering) aren't and can't be fully captured by a regex script. It exists to catch mechanical regressions fast and free, not to validate the agent's judgment.
