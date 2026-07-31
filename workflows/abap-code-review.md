@@ -12,9 +12,9 @@ Point this at a folder of ABAP source (a local clone of abapGit, a pinned commit
 
 ## Inputs
 
-- **Target path**: folder containing `.abap` files to review
+- **Target path**: folder containing `.abap`/`.ddls`/`.bdef` files to review
 - **Commit/version reference**: if the target is a git clone, record the exact commit SHA in the report header. Without this, "reproducible by anyone" is just a claim, not a fact.
-- **Skills to run**: default is all available `abap-review-*` skills (currently: `abap-review-performance`; `abap-review-naming` and `abap-review-security` join once built)
+- **Skills to run**: default is all available `abap-review-*` skills (currently: `abap-review-performance`, `abap-review-clean-core`, `abap-review-rap`; `abap-review-naming` and `abap-review-security` join once built). Note `abap-review-rap` needs a target with real RAP artifacts — abapGit alone won't have much; see `AGENTS.md` Setup for the second demo target.
 
 ## Steps
 

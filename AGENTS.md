@@ -8,7 +8,7 @@ See `abap-review-agent-brief.md`-derived scope below for the product intent. Thi
 
 ## What this is
 
-An agent skill pack that reviews ABAP source code — naming conventions, performance anti-patterns, security issues — and produces verifiable report artifacts (file:line findings, severity-ranked). No SAP system required: review is pure static text analysis over `.abap` source files, run against real open-source ABAP (abapGit) for a public, reproducible demo.
+An agent skill pack that reviews ABAP source code — naming conventions, performance anti-patterns, security issues, Clean Core violations, and RAP artifact quality (CDS views, behavior definitions, behavior implementation classes) — and produces verifiable report artifacts (file:line findings, severity-ranked). No SAP system required: review is pure static text analysis over `.abap`/`.ddls`/`.bdef` source files, run against real open-source ABAP (abapGit for classic patterns, [SAP-samples/cloud-abap-rap](https://github.com/SAP-samples/cloud-abap-rap) for RAP/Clean Core, since abapGit itself predates RAP and doesn't carry much of it) for a public, reproducible demo.
 
 Agents draft findings. Humans decide what's real and what ships. No auto-fixes in v1.
 
@@ -71,6 +71,8 @@ Copied/adapted from the playbook pattern — see `ai-delivery-playbook/skills/` 
 | Skill | When to use |
 |---|---|
 | `abap-review-performance` | SELECT-in-loop, nested SELECTs, missing FOR ALL ENTRIES guards, internal-table anti-patterns |
+| `abap-review-clean-core` | Direct writes to standard tables, implicit enhancements, modification of standard objects, non-released API usage — the same governance question SAP's own Clean Core ATC check covers, without needing a system |
+| `abap-review-rap` | RAP-specific quality: CDS view hygiene (`SELECT *`, missing WHERE), missing draft on transactional BOs, behavior-implementation classes mixing data access with business logic, missing tests |
 | `abap-review-naming` | Naming conventions in the spirit of SAP's public [Clean ABAP](https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md) guide, Hungarian notation consistency, obsolete statements *(planned)* |
 | `abap-review-security` | Dynamic SQL, AUTHORITY-CHECK gaps, hardcoded credentials *(planned)* |
 | `abap-review-report` | Aggregates findings from the other skills into one structured, severity-ranked report artifact *(planned)* |
@@ -100,12 +102,16 @@ Run `/public-repo-check` before every push (copy the skill from `ai-delivery-pla
 ## Setup
 
 1. `python3 scripts/check_fixtures.py fixtures/` — no dependencies beyond Python 3 stdlib, works immediately after cloning.
-2. To run the real demo target (abapGit) rather than just the eval fixtures — needs a machine with normal internet access, not a network-restricted sandbox:
+2. To run the real demo target(s) rather than just the eval fixtures — needs a machine with normal internet access, not a network-restricted sandbox:
    ```bash
    git clone https://github.com/abapGit/abapGit.git vendor/abapgit
    cd vendor/abapgit && git rev-parse HEAD   # record this SHA in the report header — it's what makes the report reproducible
+
+   git clone https://github.com/SAP-samples/cloud-abap-rap.git vendor/cloud-abap-rap
+   cd vendor/cloud-abap-rap && git rev-parse HEAD   # second demo target, for abap-review-rap / abap-review-clean-core
    ```
-3. Run the `/abap-code-review` workflow against `vendor/abapgit/src` (or the relevant subpath) with an AI coding agent (Claude Code or similar) that has read this file and the skill files under `skills/`.
+   abapGit is classic ABAP with essentially no RAP content — it's the right target for `abap-review-performance`/`abap-review-clean-core`'s procedural-code patterns, but `abap-review-rap` needs a codebase that actually has CDS views/BDEFs/behavior implementations to review, hence the second target.
+3. Run the `/abap-code-review` workflow against `vendor/abapgit/src` (classic patterns) or `vendor/cloud-abap-rap` (RAP/CDS patterns) with an AI coding agent (Claude Code or similar) that has read this file and the skill files under `skills/`.
 4. Verify a sample of findings by hand before publishing, then save the report under `examples/abapgit-<short-sha>-<date>.md`.
 
 ---
