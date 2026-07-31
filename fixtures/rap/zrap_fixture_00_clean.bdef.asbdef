@@ -1,0 +1,25 @@
+"! Clean counterpart to fixture 03: same transactional shape (a
+"! user-facing travel request with book/cancel actions), but with
+"! `with draft;` declared -- concurrent edits surface a conflict
+"! instead of silently overwriting each other. Expected findings:
+"! none.
+managed implementation in class zbp_rap_fixture00 unique;
+strict(2);
+with draft;
+
+define behavior for ZC_RapFixture00OpenTravels alias Travel
+persistent table ztravel_fixture
+draft table ztravel_fixture_d
+lock master
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  action book;
+  action cancel;
+
+  field ( readonly ) travel_id;
+  field ( mandatory ) customer_id, begin_date, end_date;
+}

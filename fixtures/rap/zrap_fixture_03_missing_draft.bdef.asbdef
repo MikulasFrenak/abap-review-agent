@@ -1,0 +1,25 @@
+"! Known issue: a user-facing transactional object (name and actions
+"! -- "book", "cancel" -- clearly indicate an interactive request
+"! form, the kind SAP's own guidance treats drafts as effectively
+"! required for) with no `with draft;` declaration. Without one,
+"! two people editing the same travel request concurrently silently
+"! overwrite each other instead of surfacing a conflict.
+"! Expected finding: abap-review-rap, High severity, line 8.
+managed implementation in class zbp_rap_fixture03 unique;
+strict(2);
+
+define behavior for ZC_RapFixture03Travel alias Travel
+persistent table ztravel_fixture
+lock master
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  action book;
+  action cancel;
+
+  field ( readonly ) travel_id;
+  field ( mandatory ) customer_id, begin_date, end_date;
+}
