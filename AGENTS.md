@@ -50,7 +50,7 @@ chore/short-kebab-desc     # deps, refactor, config
 trivial/short-kebab-desc   # tooling, docs, config
 ```
 
-One working branch until merge — don't fragment small related changes across branches; merge-conflict risk isn't worth it on a solo project.
+One open branch/PR at a time — check for one already open before starting new work, and land related follow-ups there instead of fragmenting across branches; merge-conflict risk isn't worth it on a solo project.
 
 Commit format:
 ```
